@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout
+                pattern="%style{%d{ISO8601}}{black} %highlight{%-5level }[%style{%t}{bright,blue}] %style{%C{1.}}{bright,yellow}:%L %msg%n%throwable" />
+        </Console>
+ 
+        <RollingFile name="RollingFile"
+            fileName="./logs/app-log4j2.log"
+            filePattern="./logs/$${date:yyyy-MM}/app-log4j2-%d{-dd-MMMM-yyyy}-%i.log.gz">
+            <PatternLayout>
+                <pattern>%d %p %C{1.}:%L [%t] %m%n</pattern>
+            </PatternLayout>
+            <Policies>
+                <!-- rollover on startup, daily and when the file reaches 200 MegaBytes -->
+                <OnStartupTriggeringPolicy />
+                <SizeBasedTriggeringPolicy
+                    size="20 MB" />
+                <TimeBasedTriggeringPolicy />
+            </Policies>
+            <!-- maximum 100 copies of archive -->
+            <DefaultRolloverStrategy max="100">
+            	<!-- 
+	            	delete in base path ./logs. 
+	            	maximum directory level 2.
+	            	if file is more than 60 days old.
+	            	delete will trigger when log rolling daily 
+	            -->
+            	<Delete basePath="./logs" maxDepth="2">
+            		<IfFileName glob="*/app-log4j2-*.log.gz" />
+          			<IfLastModified age="60d" />
+            	</Delete>
+            </DefaultRolloverStrategy>
+        </RollingFile>
+    </Appenders>
+ 
+    <Loggers>
+        <!-- LOG everything at INFO level -->
+        <Root level="info">
+            <AppenderRef ref="Console" />
+            <AppenderRef ref="RollingFile" />
+        </Root>
+ 
+        <Logger name="com.mahendracandi.chatbotgeneratereportapp" level="debug"></Logger>
+    </Loggers>
+ 
+</Configuration>
