@@ -54,12 +54,8 @@
 			<artifactId>spring-boot-starter-log4j2</artifactId>
 		</dependency>
 
-		<!-- <dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-devtools</artifactId>
-			<scope>runtime</scope>
-			<optional>true</optional>
-		</dependency> -->
+		<!-- <dependency> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-devtools</artifactId> 
+			<scope>runtime</scope> <optional>true</optional> </dependency> -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-configuration-processor</artifactId>
@@ -125,6 +121,53 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				
+				<!-- change .original name -->
+				<executions>
+					<execution>
+						<id>repackage</id>
+						<configuration>
+							<classifier>exec</classifier>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<!-- build manual -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>copy-dependencies</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>copy-dependencies</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>
+								${project.build.directory}/libs
+							</outputDirectory>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+					<archive>
+						<manifest>
+							<addClasspath>true</addClasspath>
+							<classpathPrefix>libs/</classpathPrefix>
+							
+							<!-- main class name -->
+							<mainClass>
+								com.mahendracandi.chatbotgeneratereportapp.ChatbotGenerateReportAppApplication
+							</mainClass>
+						</manifest>
+					</archive>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
