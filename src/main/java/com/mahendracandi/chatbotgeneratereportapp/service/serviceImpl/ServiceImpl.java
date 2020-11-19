@@ -18,6 +18,7 @@ import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import com.mahendracandi.chatbotgeneratereportapp.model.FallbackActivity;
 import com.mahendracandi.chatbotgeneratereportapp.model.Knowledge;
+import com.mahendracandi.chatbotgeneratereportapp.model.ProfilingActivity;
 import com.mahendracandi.chatbotgeneratereportapp.model.Ticket;
 import com.mahendracandi.chatbotgeneratereportapp.service.IService;
 
@@ -59,7 +60,32 @@ public class ServiceImpl implements IService {
             list = new Gson().fromJson(listData, type);
             return list;
         }catch (Exception e){
-            log.error("Exection error: " + e);
+            log.error("Exeption error: " + e);
+        }
+        return null;
+    }
+    
+    @Override
+    public List<ProfilingActivity> getProfilingActivityFromJsonFile(String fileName) {
+    	List<ProfilingActivity> list = null;
+    	String listData = null;
+        try {
+            File file = new File(fileName);
+            JsonReader jsonReader = new JsonReader(new FileReader(file));
+            
+            JsonElement jElement = JsonParser.parseReader(jsonReader);
+            
+            if (jElement.isJsonArray()) {
+            	listData = jElement.getAsJsonArray().toString();
+            } else if (jElement.isJsonObject()) {
+            	listData = jElement.getAsJsonObject().get("response").getAsJsonObject().get("docs").toString();
+            }
+            
+            Type type = new TypeToken<List<ProfilingActivity>>(){}.getType();
+            list = new Gson().fromJson(listData, type);
+            return list;
+        }catch (Exception e){
+            log.error("Exeption error: " + e);
         }
         return null;
     }

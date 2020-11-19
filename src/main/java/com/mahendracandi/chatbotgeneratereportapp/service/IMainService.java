@@ -5,6 +5,8 @@ import org.springframework.web.multipart.MultipartFile;
 public interface IMainService {
 	boolean processFallbackMessage(String inputFile, String outputFile, String titleName, String sheetName);
 	
+	boolean processProfilingActivity(String inputFile, String outputFile, String titleName, String sheetName);
+	
 	byte[] getFile(String fileName);
 	
 	String uploadFile(MultipartFile file, String targetPath);

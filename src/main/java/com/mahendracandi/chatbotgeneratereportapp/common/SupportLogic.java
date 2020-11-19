@@ -220,4 +220,28 @@ public class SupportLogic {
 		ZonedDateTime zoneDateTime = instant.atZone(ZoneId.systemDefault());
 		return zoneDateTime.format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss"));
     }
+    
+    /**
+     * True if contract number has 12 digit
+     * @param contractNumber
+     * @return boolean
+     */
+    public boolean isContractNoValid(String contractNumber) {
+        String regex = "^\\d{12}$";
+        Pattern p = Pattern.compile(regex);
+        Matcher m = p.matcher(contractNumber);
+        return m.find();
+    }
+    
+    /**
+     * True if identity number has 16 digit
+     * @param identityNumber
+     * @return boolean
+     */
+    public boolean isIdentityNoValid(String identityNumber) {
+        String regex = "^\\d{16}$";
+        Pattern p = Pattern.compile(regex);
+        Matcher m = p.matcher(identityNumber);
+        return m.find();
+    }
 }

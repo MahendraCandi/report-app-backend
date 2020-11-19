@@ -26,6 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.mahendracandi.chatbotgeneratereportapp.common.CommonStatic;
 import com.mahendracandi.chatbotgeneratereportapp.service.IFallbackService;
 import com.mahendracandi.chatbotgeneratereportapp.service.IMainService;
+import com.mahendracandi.chatbotgeneratereportapp.service.IProfilingActivity;
 
 @Service
 public class MainServiceImpl implements IMainService {
@@ -34,12 +35,31 @@ public class MainServiceImpl implements IMainService {
 
 	@Autowired
 	IFallbackService fallbackService;
+	
+	@Autowired
+	IProfilingActivity profilingService;
 
 	@Override
 	public boolean processFallbackMessage(String inputFile, String outputFile, String titleName, String sheetName) {
 		try {
 			XSSFWorkbook workbook = new XSSFWorkbook();
 			fallbackService.getFallBackActivity(workbook, inputFile, sheetName, titleName);
+			FileOutputStream fileOutputStream = new FileOutputStream(outputFile);
+			workbook.write(fileOutputStream);
+			fileOutputStream.close();
+			workbook.close();
+		} catch (Exception e) {
+			log.error("Error: {}", e);
+			return false;
+		}
+		return true;
+	}
+	
+	@Override
+	public boolean processProfilingActivity(String inputFile, String outputFile, String titleName, String sheetName) {
+		try {
+			XSSFWorkbook workbook = new XSSFWorkbook();
+			profilingService.getProfilingActivity(workbook, inputFile, sheetName, titleName);
 			FileOutputStream fileOutputStream = new FileOutputStream(outputFile);
 			workbook.write(fileOutputStream);
 			fileOutputStream.close();

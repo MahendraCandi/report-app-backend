@@ -4,12 +4,15 @@ import java.util.List;
 
 import com.mahendracandi.chatbotgeneratereportapp.model.FallbackActivity;
 import com.mahendracandi.chatbotgeneratereportapp.model.Knowledge;
+import com.mahendracandi.chatbotgeneratereportapp.model.ProfilingActivity;
 import com.mahendracandi.chatbotgeneratereportapp.model.Ticket;
 
 public interface IService {
     List<Ticket> getTicketListFromJsonFile(String fileName);
 
     List<FallbackActivity> getFallbackActivityFromJsonFile(String fileName);
+    
+    List<ProfilingActivity> getProfilingActivityFromJsonFile(String fileName);
 
     List<Knowledge> getListFromJsonFile(String fileName);
 
