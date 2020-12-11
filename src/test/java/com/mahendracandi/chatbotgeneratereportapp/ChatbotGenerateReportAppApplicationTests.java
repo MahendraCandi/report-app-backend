@@ -15,15 +15,32 @@ class ChatbotGenerateReportAppApplicationTests {
 
 	@Test
 	void contextLoads() {
-		String utc = "2020-06-30T17:03:36.481Z";
+		String utc1 = "2020-09-01T00:36:47.280Z";
+		String utc2 = "2020-09-01T00:38:54.928Z";
+		String utc3 = "2020-09-01T02:00:03.852Z";
 		
-		LocalDateTime dt = LocalDateTime.parse(utc, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"));
-		Instant instant = Instant.parse(utc);
-		System.out.println(instant);
-//		ZonedDateTime zoneDateTime = instant.atZone(ZoneId.of("Asia/Jakarta"));
-		ZonedDateTime zoneDateTime = instant.atZone(ZoneId.systemDefault());
-		System.out.println(zoneDateTime.format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss")));
+		//01-09-2020 07:36:35
+		
+		//2020-08-31T19:56:12.304Z
+		//01-09-2020 02:56:12
+		
+//		LocalDateTime dt = LocalDateTime.parse(utc, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"));
+		
+//		convertToWIB(utc1);
+//		System.out.println("----------");
+//		convertToWIB(utc2);
+//		System.out.println("----------");
+//		convertToWIB(utc3);
+		
 		
 	}
+	
+	private void convertToWIB(String value) {
+		Instant instant = Instant.parse(value);
+		System.out.println(instant);
+		ZonedDateTime zoneDateTime = instant.atZone(ZoneId.systemDefault());
+		System.out.println(zoneDateTime.format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss")));
+	}
+	
 
 }
